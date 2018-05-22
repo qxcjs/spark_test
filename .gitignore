@@ -2,4 +2,5 @@
 target
 spark-warehouse
 spark_test.iml
-
+logs
+stat*

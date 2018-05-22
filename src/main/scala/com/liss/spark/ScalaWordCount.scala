@@ -10,13 +10,25 @@ object ScalaWordCount {
       .appName("JavaWordCount")
       .master("local[1]")
       .getOrCreate
+    spark.sparkContext.setCheckpointDir("")
+    spark.sparkContext.getCheckpointDir
+    val dataframe = spark.read.parquet("C:\\Users\\Administrator\\Desktop\\activiation.parquet")
+    dataframe.checkpoint()
+    dataframe.printSchema()
+    dataframe.storageLevel.useMemory
+    dataframe.repartition(1)
+    dataframe.coalesce(1)
+    dataframe.unpersist()
+    println(dataframe.rdd.toDebugString)
     val lines = spark.sparkContext.textFile("D:/GitWorkspace/spark_test/src/main/resources/WordCount.txt")
-    val counts = lines
-      .flatMap(_.split(" "))
-      .map((_, 1))
-      .reduceByKey(_ + _)
-    counts.foreach(println(_))
-    println(counts.toDebugString)
-    spark.stop()
+//    lines.checkpoint()
+//    spark.sparkContext.longAccumulator("long")
+//    val counts = lines.flatMap(_.split(""))
+//      .map((_, 1))
+//      .reduceByKey(_ + _)
+//      .distinct()
+//    counts.foreach(println(_))
+//    println(counts.toDebugString)
+//    spark.stop()
   }
 }
