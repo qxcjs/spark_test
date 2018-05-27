@@ -21,14 +21,12 @@ object ScalaWordCount {
     dataframe.unpersist()
     println(dataframe.rdd.toDebugString)
     val lines = spark.sparkContext.textFile("D:/GitWorkspace/spark_test/src/main/resources/WordCount.txt")
-//    lines.checkpoint()
-//    spark.sparkContext.longAccumulator("long")
-//    val counts = lines.flatMap(_.split(""))
-//      .map((_, 1))
-//      .reduceByKey(_ + _)
-//      .distinct()
-//    counts.foreach(println(_))
-//    println(counts.toDebugString)
-//    spark.stop()
+    val counts = lines
+      .flatMap(_.split(" "))
+      .map((_, 1))
+      .reduceByKey(_ + _)
+    counts.foreach(println(_))
+    println(counts.toDebugString)
+    spark.stop()
   }
 }

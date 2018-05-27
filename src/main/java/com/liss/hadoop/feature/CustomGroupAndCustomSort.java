@@ -119,6 +119,18 @@ public class CustomGroupAndCustomSort {
         }
     }
 
+    //分组内部进行排序，按照第二个字段进行排序
+    public static class MySortComparator extends WritableComparator {
+        public MySortComparator() {
+            super(MyNewKey.class,true);
+        }
+
+        @Override
+        public int compare(WritableComparable a, WritableComparable b) {
+            return 0;
+        }
+    }
+
     private static final String INPUT_PATH = "D:/GitWorkspace/spark_test/src/main/resources/GroupNumber.txt";
     private static final String OUTPUT_PATH = "D:/GitWorkspace/spark_test/src/main/resources/stats_custom_group_and_custom_sort";
 
@@ -136,7 +148,8 @@ public class CustomGroupAndCustomSort {
         job.setOutputValueClass(LongWritable.class);
 
         // 设置自定义分组规则
-        job.setGroupingComparatorClass(MyGroupingComparator.class);
+//        job.setSortComparatorClass(MySortComparator.class);
+//        job.setGroupingComparatorClass(MyGroupingComparator.class);
 
         // 判断output文件夹是否存在，如果存在则删除
         Path path = new Path(OUTPUT_PATH);
